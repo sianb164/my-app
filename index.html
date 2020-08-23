@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ccc7b0a81e.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <form class="input-group mb-3" id="change-city-form">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Change city here..."
+          id="change-city-input"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-secondary change-city-button button-icon"
+            type="submit"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="input-group-append">
+          <button
+            class="btn btn-success change-city-button button-icon"
+            type="button"
+            id="current-location-button"
+          >
+            Current
+          </button>
+        </div>
+      </form>
+
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <button class="btn btn-secondary active celsius-button">
+          Celsius
+        </button>
+        <button class="btn btn-outline-secondary fahrenheit-button">
+          Fahrenheit
+        </button>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col-7">
+          <h1 id="current-city">Oxford, GB</h1>
+          <h2 id="current-date">Saturday 8th August 20:45</h2>
+          <p class="current-weather">
+            <i class="fas fa-cloud-sun current-symbol"></i>
+            <span id="current-temp"> 21 </span>°<span class="current-temp-unit"
+              >C</span
+            >
+          </p>
+          <p id="current-description">Cloudy</p>
+        </div>
+        <div class="col-5 hum-wind-max">
+          <h3 class="humidity">
+            <strong>Humidity:</strong> <span id="current-humidity">5</span>%
+          </h3>
+          <h3 class="wind">
+            <strong>Wind:</strong> <span id="current-wind-speed">11</span>
+            <span id="current-wind-unit">mph</span>
+          </h3>
+          <h3 class="maximum">
+            <strong>Maximum:</strong>
+            <span id="current-maximum-temp">25</span>°<span
+              class="current-temp-unit"
+              >C</span
+            >
+          </h3>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row five-day-forecast">
+        <div class="col-sm">
+          <p class="five-day-date">Sunday</p>
+          <br />
+          <i class="fas fa-sun five-day-symbol"></i>
+          <br />
+          <p class="five-day-temp"><strong>23°</strong>/18°</p>
+        </div>
+        <div class="col-sm">
+          <p class="five-day-date">Monday</p>
+          <br />
+          <i class="fas fa-sun five-day-symbol"></i>
+          <br />
+          <p class="five-day-temp"><strong>25°</strong>/20°</p>
+        </div>
+        <div class="col-sm">
+          <p class="five-day-date">Tuesday</p>
+          <br />
+          <i class="fas fa-cloud-rain five-day-symbol"></i>
+          <br />
+          <p class="five-day-temp"><strong>21°</strong>/19°</p>
+        </div>
+        <div class="col-sm">
+          <p class="five-day-date">Wednesday</p>
+          <br />
+          <i class="fas fa-cloud-sun-rain five-day-symbol"></i>
+          <br />
+          <p class="five-day-temp"><strong>20°</strong>/17°</p>
+        </div>
+        <div class="col-sm">
+          <p class="five-day-date">Thursday</p>
+          <br />
+          <i class="fas fa-cloud five-day-symbol"></i>
+          <br />
+          <p class="five-day-temp"><strong>19°</strong>/15°</p>
+        </div>
+      </div>
+
+      <div class="btn-group btn-group-toggle">
+        <label
+          class="btn btn-secondary active temp-wind-rain-buttons button-icon"
+        >
+          <input type="radio" name="options" id="option1" checked />
+          <i class="fas fa-thermometer-half"></i>
+        </label>
+        <label class="btn btn-secondary temp-wind-rain-buttons button-icon">
+          <input type="radio" name="options" id="option2" />
+          <i class="fas fa-wind"></i>
+        </label>
+        <label class="btn btn-secondary temp-wind-rain-buttons button-icon">
+          <input type="radio" name="options" id="option3" />
+          <i class="fas fa-cloud-rain"></i>
+        </label>
+      </div>
+    </div>
+    <script src="src/script.js"></script>
+  </body>
+</html>

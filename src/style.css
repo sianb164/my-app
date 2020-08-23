@@ -1,0 +1,104 @@
+hr {
+  border: 2px solid #e1e3e9;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.container-fluid {
+  max-width: 700px;
+  border: none;
+  padding: 25px;
+  margin-top: 20px;
+  background: #f4f5f7;
+  font-family: "Baloo Tamma 2", cursive;
+  color: #361c4d;
+}
+
+.form-control {
+  font-size: 30px;
+}
+
+.change-city-button {
+  font-size: 30px;
+}
+
+.btn-group {
+  display: flex;
+}
+
+.celsius-button,
+.fahrenheit-button {
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+#current-city,
+.current-weather {
+  font-size: 60px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+#current-date {
+  font-size: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#current-description {
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.hum-wind-max {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.humidity,
+.wind,
+.maximum {
+  font-size: 25px;
+  padding-left: 30px;
+}
+
+.five-day-forecast {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.five-day-date {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.five-day-symbol {
+  font-size: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #e54985;
+}
+
+.current-symbol {
+  color: #e54985;
+}
+
+.five-day-temp {
+  font-size: 22px;
+}
+
+.temp-wind-rain-buttons {
+  font-size: 30px;
+  margin-top: 40px;
+}
+
+.button-icon {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  padding: 0.85rem 0.75rem;
+}
