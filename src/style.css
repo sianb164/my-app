@@ -1,7 +1,13 @@
 hr {
   border: 2px solid #e1e3e9;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .container-box {
@@ -13,7 +19,7 @@ hr {
   font-family: "Baloo Tamma 2", cursive;
   color: #361c4d;
   display: block;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .form-control {
