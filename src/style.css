@@ -12,6 +12,8 @@ hr {
   background: #f4f5f7;
   font-family: "Baloo Tamma 2", cursive;
   color: #361c4d;
+  display: block;
+  margin: 0 auto;
 }
 
 .form-control {
