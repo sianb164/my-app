@@ -26,8 +26,12 @@ footer {
   font-size: 30px;
 }
 
-.change-city-button {
+.change-city-button,
+.current-location-button {
   font-size: 30px;
+  width: 56px;
+  border: solid 1px rgb(206, 212, 218);
+  height: 59px;
 }
 
 .btn-group {
