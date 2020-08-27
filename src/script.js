@@ -23,31 +23,31 @@ let months = [
   "December",
 ];
 
-function setCurrentDate() {
-  let currentDateEl = document.querySelector("#current-date");
+// function setCurrentDate() {
+//   let currentDateElement = document.querySelector("#current-date");
 
-  let now = new Date();
+//   let now = new Date();
 
-  let day = days[now.getDay()];
+//   let day = days[now.getDay()];
 
-  let date = now.getDate();
+//   let date = now.getDate();
 
-  let month = months[now.getMonth()];
+//   let month = months[now.getMonth()];
 
-  let hours = now.getHours();
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
+//   let hours = now.getHours();
+//   if (hours < 10) {
+//     hours = `0${hours}`;
+//   }
 
-  let minutes = now.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
+//   let minutes = now.getMinutes();
+//   if (minutes < 10) {
+//     minutes = `0${minutes}`;
+//   }
 
-  currentDateEl.innerHTML = `${day} ${date} ${month} ${hours}:${minutes}`;
-}
+//   currentDateElement.innerHTML = `${day} ${date} ${month} ${hours}:${minutes}`;
+// }
 
-setCurrentDate();
+//setCurrentDate();
 
 // Search engine
 
@@ -64,6 +64,10 @@ let currentMaximumTempElement = document.querySelector("#current-maximum-temp");
 let currentTempElement = document.querySelector("#current-temp");
 let currentDescriptionElement = document.querySelector("#current-description");
 
+let currentDateElement = document.querySelector("#current-date");
+
+let iconElement = document.querySelector("#icon");
+
 changeCityForm.addEventListener("submit", handleSubmit);
 
 function handleSubmit(event) {
@@ -77,9 +81,31 @@ function getTemperature() {
   axios.get(apiUrl).then(displayWeather);
 }
 
+function formatDate(timestamp) {
+  let now = new Date(timestamp);
+
+  let day = days[now.getUTCDay()];
+
+  let date = now.getUTCDate();
+
+  let month = months[now.getUTCMonth()];
+
+  let hours = now.getUTCHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+
+  let minutes = now.getUTCMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  return `${day} ${date} ${month} ${hours}:${minutes}`;
+}
+
 function displayWeather(response) {
   let currentTemperature = Math.round(response.data.main.temp);
-  let description = response.data.weather[0].main;
+  let description = response.data.weather[0].description;
   country = response.data.sys.country;
   currentCityEl.innerHTML = `${response.data.name}, ${country}`;
   currentTempElement.innerHTML = currentTemperature;
@@ -87,11 +113,19 @@ function displayWeather(response) {
   currentWindSpeedElement.innerHTML = Math.round(response.data.wind.speed);
   currentHumidityElement.innerHTML = Math.round(response.data.main.humidity);
   currentMaximumTempElement.innerHTML = Math.round(response.data.main.temp_max);
+  let timeAtLocation = response.data.dt + response.data.timezone;
+  currentDateElement.innerHTML = formatDate(timeAtLocation * 1000);
+  let weatherIcon = response.data.weather[0].icon;
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`
+  );
+  iconElement.setAttribute("alt", description);
 }
 
 function displayWeatherCoords(response) {
   let currentTemperature = Math.round(response.data.main.temp);
-  let description = response.data.weather[0].main;
+  let description = response.data.weather[0].description;
   city = response.data.name;
   country = response.data.sys.country;
   currentTempElement.innerHTML = currentTemperature;
@@ -100,6 +134,8 @@ function displayWeatherCoords(response) {
   currentWindSpeedElement.innerHTML = Math.round(response.data.wind.speed);
   currentHumidityElement.innerHTML = Math.round(response.data.main.humidity);
   currentMaximumTempElement.innerHTML = Math.round(response.data.main.temp_max);
+  let timeAtLocation = response.data.dt + response.data.timezone;
+  currentDateElement.innerHTML = formatDate(timeAtLocation * 1000);
 }
 
 // C to F
