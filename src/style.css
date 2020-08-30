@@ -15,7 +15,7 @@ footer {
   border: none;
   padding: 25px;
   margin-top: 20px;
-  background: #f4f5f7;
+  background: white;
   font-family: "Baloo Tamma 2", cursive;
   color: #361c4d;
   display: block;
@@ -80,29 +80,30 @@ footer {
   padding-left: 30px;
 }
 
-.five-day-forecast {
+.weather-forecast {
   text-align: center;
   margin: 0 auto;
+  line-height: 40px;
 }
 
-.five-day-date {
+.forecast-time {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 0;
 }
 
-.five-day-symbol {
-  font-size: 40px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  color: #e54985;
+.weather-forecast img {
+  display: block;
+  margin: 0 auto;
+  height: 48px;
+  width: 48px;
 }
 
 .current-symbol {
   color: #e54985;
 }
 
-.five-day-temp {
+.weather-forecast-temperature {
   font-size: 22px;
 }
 

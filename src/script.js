@@ -23,32 +23,6 @@ let months = [
   "December",
 ];
 
-// function setCurrentDate() {
-//   let currentDateElement = document.querySelector("#current-date");
-
-//   let now = new Date();
-
-//   let day = days[now.getDay()];
-
-//   let date = now.getDate();
-
-//   let month = months[now.getMonth()];
-
-//   let hours = now.getHours();
-//   if (hours < 10) {
-//     hours = `0${hours}`;
-//   }
-
-//   let minutes = now.getMinutes();
-//   if (minutes < 10) {
-//     minutes = `0${minutes}`;
-//   }
-
-//   currentDateElement.innerHTML = `${day} ${date} ${month} ${hours}:${minutes}`;
-// }
-
-//setCurrentDate();
-
 // Search engine
 
 let units = "metric";
@@ -73,34 +47,61 @@ changeCityForm.addEventListener("submit", handleSubmit);
 function handleSubmit(event) {
   event.preventDefault();
   city = changeCityInput.value;
-  getTemperature();
+  search();
 }
 
-function getTemperature() {
+function displayForecast(response) {
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = null;
+  let forecast = null;
+
+  for (let index = 0; index < 6; index++) {
+    forecast = response.data.list[index];
+    forecastElement.innerHTML += `
+  <div class="col-2">
+    <div class="forecast-time">
+      ${formatHours(forecast.dt * 1000)}
+    </div>
+    <img
+      src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png"
+    />
+    <div class="weather-forecast-temperature">
+      <strong>${Math.round(forecast.main.temp_max)}°</strong> ${Math.round(
+      forecast.main.temp_min
+    )}°
+    </div>
+  </div>
+`;
+  }
+}
+
+function search() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayWeather);
+
+  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function formatDate(timestamp) {
   let now = new Date(timestamp);
-
   let day = days[now.getUTCDay()];
-
   let date = now.getUTCDate();
-
   let month = months[now.getUTCMonth()];
+  return `${day} ${date} ${month} ${formatHours(timestamp)}`;
+}
 
+function formatHours(timestamp) {
+  let now = new Date(timestamp);
   let hours = now.getUTCHours();
   if (hours < 10) {
     hours = `0${hours}`;
   }
-
   let minutes = now.getUTCMinutes();
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-
-  return `${day} ${date} ${month} ${hours}:${minutes}`;
+  return `${hours}:${minutes}`;
 }
 
 function displayWeather(response) {
@@ -150,7 +151,7 @@ function celsiusClick() {
   fahrenheitButton.classList.add("btn-outline-secondary");
   units = "metric";
   setUnit("C", "mph");
-  getTemperature();
+  search();
 }
 
 function fahrenheitClick() {
@@ -159,7 +160,7 @@ function fahrenheitClick() {
   celsiusButton.classList.add("btn-outline-secondary");
   units = "imperial";
   setUnit("F", "kph");
-  getTemperature();
+  search();
 }
 
 function setUnit(tempUnit, windUnit) {
@@ -199,7 +200,7 @@ currentLocationButton.addEventListener("click", getCurrentPosition);
 
 function loadPage() {
   city = "Oxford";
-  getTemperature();
+  search();
 }
 
 loadPage();
