@@ -23,8 +23,6 @@ let months = [
   "December",
 ];
 
-// Search engine
-
 let units = "metric";
 let city = "";
 let country = "";
@@ -37,9 +35,7 @@ let currentHumidityElement = document.querySelector("#current-humidity");
 let currentMaximumTempElement = document.querySelector("#current-maximum-temp");
 let currentTempElement = document.querySelector("#current-temp");
 let currentDescriptionElement = document.querySelector("#current-description");
-
 let currentDateElement = document.querySelector("#current-date");
-
 let iconElement = document.querySelector("#icon");
 
 changeCityForm.addEventListener("submit", handleSubmit);
@@ -50,17 +46,39 @@ function handleSubmit(event) {
   search();
 }
 
+function formatHours(timestamp) {
+  let now = new Date(timestamp);
+  let hours = now.getUTCHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = now.getUTCMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${hours}:${minutes}`;
+}
+
+function formatDate(timestamp) {
+  let now = new Date(timestamp);
+  let day = days[now.getUTCDay()];
+  let date = now.getUTCDate();
+  let month = months[now.getUTCMonth()];
+  return `${day} ${date} ${month} ${formatHours(timestamp)}`;
+}
+
 function displayForecast(response) {
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = null;
   let forecast = null;
+  let timezone = response.data.city.timezone;
 
   for (let index = 0; index < 6; index++) {
     forecast = response.data.list[index];
     forecastElement.innerHTML += `
   <div class="col-2">
     <div class="forecast-time">
-      ${formatHours(forecast.dt * 1000)}
+      ${formatHours((forecast.dt + timezone) * 1000)}
     </div>
     <img
       src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png"
@@ -81,27 +99,6 @@ function search() {
 
   apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayForecast);
-}
-
-function formatDate(timestamp) {
-  let now = new Date(timestamp);
-  let day = days[now.getUTCDay()];
-  let date = now.getUTCDate();
-  let month = months[now.getUTCMonth()];
-  return `${day} ${date} ${month} ${formatHours(timestamp)}`;
-}
-
-function formatHours(timestamp) {
-  let now = new Date(timestamp);
-  let hours = now.getUTCHours();
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  let minutes = now.getUTCMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  return `${hours}:${minutes}`;
 }
 
 function displayWeather(response) {
@@ -146,18 +143,20 @@ let celsiusButton = document.querySelector(".celsius-button");
 let fahrenheitButton = document.querySelector(".fahrenheit-button");
 
 function celsiusClick() {
-  celsiusButton.classList.add("active", "btn-secondary");
-  fahrenheitButton.classList.remove("active", "btn-secondary");
-  fahrenheitButton.classList.add("btn-outline-secondary");
+  celsiusButton.classList.add("active");
+  celsiusButton.classList.remove("secondary");
+  fahrenheitButton.classList.remove("active");
+  fahrenheitButton.classList.add("secondary");
   units = "metric";
   setUnit("C", "mph");
   search();
 }
 
 function fahrenheitClick() {
-  fahrenheitButton.classList.add("active", "btn-secondary");
-  celsiusButton.classList.remove("active", "btn-secondary");
-  celsiusButton.classList.add("btn-outline-secondary");
+  fahrenheitButton.classList.add("active");
+  fahrenheitButton.classList.remove("secondary");
+  celsiusButton.classList.remove("active");
+  celsiusButton.classList.add("secondary");
   units = "imperial";
   setUnit("F", "kph");
   search();
@@ -180,15 +179,18 @@ fahrenheitButton.addEventListener("click", fahrenheitClick);
 let currentLocationButton = document.querySelector("#current-location-button");
 
 function handlePosition(position) {
-  celsiusButton.classList.add("active", "btn-secondary");
-  fahrenheitButton.classList.remove("active", "btn-secondary");
-  fahrenheitButton.classList.add("btn-outline-secondary");
+  celsiusButton.classList.add("active");
+  celsiusButton.classList.remove("secondary");
+  fahrenheitButton.classList.remove("active");
+  fahrenheitButton.classList.add("secondary");
   units = "metric";
   setUnit("C", "mph");
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayWeatherCoords);
+  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function getCurrentPosition() {
